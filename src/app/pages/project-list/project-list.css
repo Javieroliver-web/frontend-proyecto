@@ -1,0 +1,136 @@
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  /* Tarjetas de Proyectos Recientes */
+  .project-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .project-card {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .card-icon {
+    font-size: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+  }
+  
+  .project-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  /* Pestañas de Contenido (Idénticas a dashboard.component.css)
+     NOTA: Este es otro candidato perfecto para un componente reutilizable.
+  */
+  .content-tabs {
+    display: flex;
+    gap: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+  }
+  .content-tabs a {
+    padding-bottom: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+  }
+  .content-tabs a.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+  }
+  /* Fin de estilos de pestañas */
+  
+  
+  /* Lista de Tareas */
+  .task-list-wrapper {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados se apliquen */
+  }
+  
+  .task-list-header {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .task-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .task-item:last-child {
+    border-bottom: none;
+  }
+  
+  .task-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .task-details label {
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .task-details input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-color);
+  }
+  
+  .task-assignees {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  .user-avatar-sm {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ddd;
+    display: grid;
+    place-items: center;
+    font-size: 0.9rem;
+  }
