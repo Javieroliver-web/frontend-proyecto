@@ -1,14 +1,57 @@
-<div class="project-card" [routerLink]="['/proyectos', '1']">
-  <span class="card-icon">📦</span>
-  <h3>Proyecto 1</h3>
-</div>
+<div class="project-list-container">
+  <h1 class="page-title">Recomendados</h1>
 
-<div class="project-card" [routerLink]="['/proyectos', '2']">
-  <span class="card-icon">🚀</span>
-  <h3>Proyecto 2</h3>
-</div>
+  <!-- Proyectos Recientes -->
+  <section class="section-proyectos-recientes">
+    <h2 class="section-title">Proyectos recientes</h2>
+    
+    <div *ngIf="isLoadingRecientes" class="loading-container">
+      <p>Cargando proyectos recientes...</p>
+    </div>
 
-<div class="project-card" [routerLink]="['/proyectos', '3']">
-  <span class="card-icon">📈</span>
-  <h3>Proyecto 3</h3>
+    <div *ngIf="!isLoadingRecientes && proyectosRecientes.length > 0" class="project-cards-grid">
+      <div 
+        *ngFor="let proyecto of proyectosRecientes" 
+        class="project-card" 
+        [routerLink]="['/proyectos', proyecto.id]">
+        <span class="card-icon">{{ getIcono(proyecto) }}</span>
+        <h3>{{ proyecto.nombre }}</h3>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoadingRecientes && proyectosRecientes.length === 0" class="empty-state">
+      <p>No hay proyectos recientes</p>
+    </div>
+  </section>
+
+  <!-- Todos los Proyectos -->
+  <section class="section-todos-proyectos">
+    <h2 class="section-title">Todos los proyectos</h2>
+    
+    <div *ngIf="isLoading" class="loading-container">
+      <p>Cargando proyectos...</p>
+    </div>
+
+    <div *ngIf="!isLoading && proyectos.length > 0" class="project-cards-grid">
+      <div 
+        *ngFor="let proyecto of proyectos" 
+        class="project-card" 
+        [routerLink]="['/proyectos', proyecto.id]">
+        <span class="card-icon">{{ getIcono(proyecto) }}</span>
+        <h3>{{ proyecto.nombre }}</h3>
+        <p *ngIf="proyecto.descripcion" class="project-description">{{ proyecto.descripcion }}</p>
+        <span class="project-status" [ngClass]="'status-' + getEstadoClass(proyecto.estado)">
+          {{ proyecto.estado }}
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && proyectos.length === 0" class="empty-state">
+      <p>No hay proyectos disponibles</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </section>
 </div>

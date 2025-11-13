@@ -13,10 +13,12 @@ import { ProjectService, Proyecto } from '../../services/project.service';
 })
 export class ProjectListComponent implements OnInit {
   proyectos: Proyecto[] = [];
+  proyectosRecientes: Proyecto[] = [];
   isLoading = true;
+  isLoadingRecientes = true;
   errorMessage = '';
 
-  // Mapeo de iconos por ID o nombre de proyecto
+  // Mapeo de iconos por ID o nombre de proyecto (fallback si no viene del backend)
   iconMap: { [key: number]: string } = {
     1: '📦',
     2: '🚀',
@@ -27,6 +29,7 @@ export class ProjectListComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarProyectos();
+    this.cargarProyectosRecientes();
   }
 
   cargarProyectos(): void {
@@ -36,7 +39,7 @@ export class ProjectListComponent implements OnInit {
         this.proyectos = proyectos;
         this.isLoading = false;
       },
-      error: (error: unknown) => {
+      error: (error: any) => {
         console.error('Error al cargar proyectos:', error);
         this.errorMessage = 'Error al cargar los proyectos';
         this.isLoading = false;
@@ -44,8 +47,24 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
+  cargarProyectosRecientes(): void {
+    this.isLoadingRecientes = true;
+    this.proyectoService.getProyectosRecientes().subscribe({
+      next: (proyectos: Proyecto[]) => {
+        this.proyectosRecientes = proyectos;
+        this.isLoadingRecientes = false;
+      },
+      error: (error: any) => {
+        console.error('Error al cargar proyectos recientes:', error);
+        // Si falla, intentamos usar los proyectos normales como fallback
+        this.proyectosRecientes = [];
+        this.isLoadingRecientes = false;
+      }
+    });
+  }
+
   getIcono(proyecto: Proyecto): string {
-    return this.iconMap[proyecto.id] || '📁';
+    return proyecto.icono || this.iconMap[proyecto.id] || '📁';
   }
 
   getEstadoClass(estado: string): string {
