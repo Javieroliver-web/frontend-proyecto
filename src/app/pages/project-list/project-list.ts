@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProyectoService, Proyecto } from '../../services/proyecto.service';
+import { ProjectService, Proyecto } from '../../services/project.service';
 
 @Component({
   selector: 'app-project-list',
@@ -23,7 +23,7 @@ export class ProjectListComponent implements OnInit {
     3: '📈'
   };
 
-  constructor(private proyectoService: ProyectoService) {}
+  constructor(private proyectoService: ProjectService) {}
 
   ngOnInit(): void {
     this.cargarProyectos();
@@ -32,11 +32,11 @@ export class ProjectListComponent implements OnInit {
   cargarProyectos(): void {
     this.isLoading = true;
     this.proyectoService.getProyectos().subscribe({
-      next: (proyectos) => {
+      next: (proyectos: Proyecto[]) => {
         this.proyectos = proyectos;
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al cargar proyectos:', error);
         this.errorMessage = 'Error al cargar los proyectos';
         this.isLoading = false;

@@ -72,7 +72,7 @@
           <span class="user-icon">🔔</span>
           <div class="feed-text">
             <strong>{{ notificacion.mensaje }}</strong>
-            <span class="feed-time">{{ formatearFecha(notificacion.fecha) }}</span>
+            <span class="feed-time">{{ formatearFecha(notificacion.creado_en) }}</span>
           </div>
         </li>
         <li class="feed-item" *ngIf="notificaciones.length === 0">

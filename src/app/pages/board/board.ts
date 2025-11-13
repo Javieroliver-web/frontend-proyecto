@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProyectoService, Proyecto } from '../../services/proyecto.service';
+import { ProjectService, Proyecto } from '../../services/project.service';
 import { TareaService, Tarea, TareaCreate } from '../../services/tarea.service';
 
 @Component({
@@ -44,7 +44,7 @@ export class BoardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private proyectoService: ProyectoService,
+    private proyectoService: ProjectService,
     private tareaService: TareaService
   ) {}
 
@@ -59,22 +59,22 @@ export class BoardComponent implements OnInit {
     this.isLoading = true;
 
     this.proyectoService.getProyecto(proyectoId).subscribe({
-      next: (proyecto) => {
+      next: (proyecto: Proyecto) => {
         this.proyecto = proyecto;
         this.nuevaTarea.proyecto_id = proyecto.id;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al cargar proyecto:', error);
       }
     });
 
     this.tareaService.getTareasPorProyecto(proyectoId).subscribe({
-      next: (tareas) => {
+      next: (tareas: Tarea[]) => {
         this.tareas = tareas;
         this.organizarTareas();
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al cargar tareas:', error);
         this.isLoading = false;
       }
@@ -125,7 +125,7 @@ export class BoardComponent implements OnInit {
           this.cargarDatos(this.proyecto.id);
         }
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al actualizar tarea:', error);
         alert('Error al mover la tarea');
       }
@@ -168,7 +168,7 @@ export class BoardComponent implements OnInit {
           this.cargarDatos(this.proyecto.id);
         }
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al crear tarea:', error);
         alert('Error al crear la tarea');
       }
@@ -199,7 +199,7 @@ export class BoardComponent implements OnInit {
           this.cargarDatos(this.proyecto.id);
         }
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al actualizar tarea:', error);
         alert('Error al actualizar la tarea');
       }
@@ -218,7 +218,7 @@ export class BoardComponent implements OnInit {
           this.cargarDatos(this.proyecto.id);
         }
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al eliminar tarea:', error);
         alert('Error al eliminar la tarea');
       }

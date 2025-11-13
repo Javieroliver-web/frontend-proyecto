@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
-import { ProyectoService, Proyecto } from '../../services/proyecto.service';
+import { ProjectService, Proyecto } from '../../services/project.service';
 import { TareaService, Tarea } from '../../services/tarea.service';
 import { NotificacionService, Notificacion } from '../../services/notificacion.service';
 import { AuthService } from '../../services/auth.service';
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private proyectoService: ProyectoService,
+    private proyectoService: ProjectService,
     private tareaService: TareaService,
     private notificacionService: NotificacionService,
     private authService: AuthService
@@ -68,23 +68,23 @@ export class DashboardComponent implements OnInit {
 
     // Cargar proyecto
     this.proyectoService.getProyecto(proyectoId).subscribe({
-      next: (proyecto) => {
+      next: (proyecto: Proyecto) => {
         this.proyecto = proyecto;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al cargar proyecto:', error);
       }
     });
 
     // Cargar tareas
     this.tareaService.getTareasPorProyecto(proyectoId).subscribe({
-      next: (tareas) => {
+      next: (tareas: Tarea[]) => {
         this.tareas = tareas;
         this.calcularEstadisticas();
         this.actualizarGraficos();
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al cargar tareas:', error);
         this.isLoading = false;
       }
@@ -94,10 +94,10 @@ export class DashboardComponent implements OnInit {
     const usuario = this.authService.getCurrentUser();
     if (usuario) {
       this.notificacionService.getNotificaciones(usuario.id).subscribe({
-        next: (notificaciones) => {
+        next: (notificaciones: Notificacion[]) => {
           this.notificaciones = notificaciones.slice(0, 5); // Últimas 5
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al cargar notificaciones:', error);
         }
       });
@@ -145,7 +145,7 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.router.navigate(['/recomendados']);
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al eliminar proyecto:', error);
         alert('Error al eliminar el proyecto');
       }
@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  formatearFecha(fecha: Date | undefined): string {
+  formatearFecha(fecha: Date | string | undefined): string {
     if (!fecha) return '';
     return new Date(fecha).toLocaleString('es-ES', {
       hour: '2-digit',

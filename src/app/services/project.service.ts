@@ -1,4 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
+export interface Proyecto {
+  id: number;
+  nombre: string;
+  estado: string;
+  descripcion?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +52,38 @@ export class ProjectService {
 
   constructor() { }
 
+  // Método para obtener todos los proyectos
+  getProyectos(): Observable<Proyecto[]> {
+    // En una app real, esto sería una llamada http.get()
+    const proyectos: Proyecto[] = [
+      { id: 1, nombre: 'Proyecto 1', estado: 'activo', descripcion: 'Proyecto de inventario' },
+      { id: 2, nombre: 'Proyecto 2', estado: 'enCurso', descripcion: 'Proyecto de desarrollo' },
+      { id: 3, nombre: 'Proyecto 3', estado: 'planificado', descripcion: 'Proyecto de análisis' }
+    ];
+    return of(proyectos);
+  }
+
   // Método para obtener un proyecto por su ID
+  getProyecto(id: number): Observable<Proyecto> {
+    // En una app real, esto sería una llamada http.get()
+    const proyecto: Proyecto = {
+      id,
+      nombre: `Proyecto ${id}`,
+      estado: 'activo',
+      descripcion: `Descripción del proyecto ${id}`
+    };
+    return of(proyecto);
+  }
+
+  // Método para obtener un proyecto por su ID (versión string)
   getProjectById(id: string) {
     // En una app real, esto sería una llamada http.get()
     return (this.projectsData as any)[id];
+  }
+
+  // Método para eliminar un proyecto
+  eliminarProyecto(id: number): Observable<void> {
+    // En una app real: return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return of(undefined);
   }
 }

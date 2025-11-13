@@ -33,17 +33,26 @@ export class LoginComponent {
     this.errorMessage = '';
 
     this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.isLoading = false;
         if (response.success) {
           this.router.navigate(['/recomendados']);
         } else {
-          this.errorMessage = response.message;
+          this.errorMessage = response.message || 'Error al iniciar sesión';
         }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.isLoading = false;
-        this.errorMessage = 'Usuario o contraseña incorrectos';
+        // Manejar diferentes tipos de errores
+        if (error.status === 401) {
+          this.errorMessage = 'Usuario o contraseña incorrectos';
+        } else if (error.status === 0) {
+          this.errorMessage = 'No se pudo conectar con el servidor. Verifique que el backend esté corriendo.';
+        } else if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'Error al iniciar sesión. Por favor intente nuevamente.';
+        }
         console.error('Error en login:', error);
       }
     });
